@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="/static/myscripts.js"></script>
+        <title> {{ session["cart"]["customer_name"] }}</title>
+        <style>
+            .row-h1 
+            { 
+                font: bold 100% sans-serif;
+                letter-spacing: 0.5em;
+                text-align: center; 
+                text-transform: uppercase; 
+                background-color: black !important;
+                color: white !important;
+            }
+        </style>
+    </head>
+    <body id = "billLayout-body">
+        <div class="row row-h1">
+            <h1>Invoice</h1>
+        </div>
+        
+        <table class="table table-bordered billGen-table" id = "billLayout-table">
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Price per KG</th>
+                    <th>Quantity</th>
+                    <th>Discount</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart %}
+                <tr>
+                    <td>{{item.name}}</td>
+                    <td>{{item.pricePerKG}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.discount}} %</td>
+                    <td>{{item.totalPrice}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="border-0 fw-bold text-end" colspan="4">Total Amount</td>
+                    <td class="border-0 text-end"> {{ totalAmount }}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </body>
+    <script>
+        window.addEventListener('DOMContentLoaded', function(){
+            print();
+        });
+
+        window.addEventListener('focusout', function(){
+            window.location.href = "/billGen.html";
+        })
+    </script>
+</html>

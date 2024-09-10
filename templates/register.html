@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block main %}
+
+<div class="main-register-body">
+    <div class="container register-body">
+        <div class="row">
+            <h3 class="mb-4">
+                Registration Info</h3>
+        </div>
+        <form class = "register-form mx-5" action="/register" method="post">
+    
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="firstname"  name = "firstname" placeholder="First Name" required />
+                </div>
+                <div class="col-md-6">
+                    <div class="form-outline">
+                        <input type="text" class="form-control" id="lastname" name = "lastname" placeholder="Last Name" required />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 ">
+                    <div class="form-outline">
+                        <input type="text" class="form-control" id="email" name = "email" placeholder="Email" required />
+                    </div>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="form-outline">
+                        <input type="text" class="form-control" id="phone" name = "phone" placeholder="Phone Number" required />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-3">
+                    <input class="form-check-input" type="checkbox" value="1" id="isadmin"  name = "isadmin"/>
+                    <label class="form-check-label">IsAdmin</label>
+    
+                </div>
+                <div class = "col-md-9">
+    
+                </div>
+    
+            </div>
+    
+            <div class="button">
+                <button type="submit" class=" form-control btn btn-success" >Register</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{%endblock%}

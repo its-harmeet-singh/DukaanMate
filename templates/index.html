@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+    <h2 class="index-h2">Index Desktop</h2>
+    <div class = "container body-div">
+        <div class = "row">
+            <div class="col-md-2"></div>
+            <div class = "button-div col-md-2">
+                <a href = "/additem"> Item Functionality </a>
+            </div>
+            <div class = "button-div col-md-2">
+                <a href = "/addworker"> Worker Functionality </a>
+            </div>
+            <div class = "button-div col-md-2">
+                <a href = "/sale"> Sale </a>
+            </div>
+            <div class = "button-div col-md-2">
+                <a href = "/purchaseDesktop"> Profit Graph </a>
+            </div>
+            <div class="col-md-2"></div>    
+        </div>
+        <div class = "row">
+            <div class="col-md-3"></div>
+            <div class = "button-div col-md-2">
+                <a href = "/billGen"> Generate Bill </a>
+            </div>
+            <div class = "button-div col-md-2">
+                <a href = "/moneywithdrawal"> Money Withdrawal </a>
+            </div>
+            <div class = "button-div col-md-2">
+                <a href = "/addQuantity"> Update Quantity </a>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        <h4 class = "index-h4">Recent Updates</h4>
+        <div class = "update-div">
+            <ul>
+                <li class = "update-li"> Today's total sale till now: {{ total_sale }}</li>
+            
+                {% for update in list_updates %}
+                <li class="update-li">{{ update }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

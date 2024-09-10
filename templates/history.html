@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Sale
+{% endblock %}
+
+{% block main %}
+    <div class="history-body">
+        <div class="history-inner-body">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4"><h2> Today's Bills </h2></div>
+                <div class="col-md-4"></div>
+            </div>
+            <table class="table table-bordered history-table">
+                <thead>
+                    <tr>
+                        <th>Transaction Time</th>
+                        <th>Transaction Towards</th>
+                        <th>Person's Phone Number</th>
+                        <th>Items</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in transactions %}
+                        <tr>
+                            <td>{{transaction.transaction_time}}</td>
+                            <td>{{transaction.transaction_towards}} </td>
+                            <td>{{transaction.person_phone_no}}</td>
+                            <td>{{transaction.list_item}}</td>
+                            <td>{{transaction.amount}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="border-0 fw-bold text-end" colspan="4">Total Amount</td>
+                        <td class="border-0 text-end"> {{total_amount}}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+{% endblock %}

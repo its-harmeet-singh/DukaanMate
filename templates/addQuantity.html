@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Add Item
+{% endblock %}
+
+{% block main %}
+<form action="/addQuantity" method="post">
+    <div class="container additem_body">
+        <div><h3> Update Item's Quantity</h3> </div>
+        <div class="row">
+            <div class="col-md-5  item">
+                <label class="form-check-label">Item Name</label>
+                <select class="form-select" id="item_id" name="item_id" onchange="setOtherFields();">
+                    <option selected disabled> Open this select menu</option>
+                    {% for item in items %}
+                    <option value="{{item.item_id}}">{{item.itemname}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+            <div class="col-md-5  item">
+                <label class="form-check-label">Price</label>
+                <input type="text" class="form-control" id="price" name="price" placeholder="Price" readonly />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5  item">
+                <label class="form-check-label">Retail Discount</label>
+                <input type="text" class="form-control" id="retail_discount" name="retail_discount" placeholder="Retail Discount in %" readonly />
+            </div>
+            <div class="col-md-5  item">
+                <label class="form-check-label">Wholesale Discount</label>
+                <input type="text" class="form-control" id="wholesale_discount" name="wholesale_discount" placeholder="Wholesale Discount in %" readonly />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 item">
+                <label class="form-check-label">Quantity</label>
+                <input type="text" class="form-control" id="quantity" name="quantity" placeholder="Quantity" required />
+            </div>
+            <div class="col-md-5 item">
+                <label class="form-check-label">Category</label>
+                <input class="form-control" id = "category" name = "category" placeholder="Category" readonly>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-6 ">
+                <button class="btn btn-primary" type="submit">Update Item</button>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    function setOtherFields()
+    {
+        let list_item = '{{ json_items|safe }}';
+        list_item = Array.from(JSON.parse(list_item));
+        let selected_item = document.getElementById("item_id").value;
+
+        for(let i = 0; i < list_item.length; i++)
+        {   
+            item = list_item[i];
+            if (item["item_id"] == parseInt(selected_item))
+            {
+                document.getElementById("price").value = item["price"];
+                document.getElementById("category").value = item["category_name"];
+                document.getElementById("retail_discount").value = item["retail_discount"];
+                document.getElementById("wholesale_discount").value = item["wholesale_discount"];
+            }
+        }
+    }
+</script>
+{% endblock %}

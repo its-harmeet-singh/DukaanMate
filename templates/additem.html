@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Add Item
+{% endblock %}
+
+{% block main %}
+<form action="/additem" method="post">
+    <div class="container additem_body">
+        <div class = "row pb-0">
+            <div class="row billGen-h2"><h2>Add Item</h2></div>
+        </div>
+        <div class="row">
+            <div class="col-md-5  item">
+                <label class="form-check-label">Item Name</label>
+                <input type="text" class="form-control" id="itemname" name="itemname" placeholder="Item Name"
+                    required />
+            </div>
+            <div class="col-md-5  item">
+                <label class="form-check-label">Price</label>
+                <input type="text" class="form-control" id="price" name="price" placeholder="Price" required />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5  item">
+                <label class="form-check-label">Retail Discount</label>
+                <input type="text" class="form-control" id="retail_discount" name="retail_discount" placeholder="Retail Discount in %"
+                    required />
+            </div>
+            <div class="col-md-5  item">
+                <label class="form-check-label">Wholesale Discount</label>
+                <input type="text" class="form-control" id="wholesale_discount" name="wholesale_discount" placeholder="Wholesale Discount in %" required />
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-5 item">
+                <label class="form-check-label">Quantity</label>
+                <input type="text" class="form-control" id="quantity" name="quantity" placeholder="Quantity" required />
+            </div>
+            <div class="col-md-5 item">
+                <label class="form-check-label">Category</label>
+                <select class="form-select" aria-label=" Item Category" id="select_id" name="category_id" onchange="isother();">
+                    <option selected disabled> Open this select menu</option>
+                    {% for name in category %}
+                    <option value="{{name.category_id}}">{{name.category_name}}</option>
+                    {%endfor%}
+                    <option value="0">Others</option>
+                </select>
+            </div>
+        </div>
+        <div class="row" id="otherinput">
+            <div class="col-md-5 item">
+
+            </div>
+            <div class="col-md-5 item">
+                <input type="text" class="form-control" id="newcategory" name="newcategory"
+                    placeholder=" New Category" />
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                document.getElementById("newcategory").style.display = "none";
+
+            });
+            document.querySelector('select').addEventListener(onchange, isother());
+            function isother() {
+                let newcategory = document.getElementById("newcategory");
+                let x = document.getElementById("select_id");
+                if (x.value == "0") {
+                    newcategory.style.display = "block";
+                }
+                else {
+                    newcategory.style.display = "none";
+                }
+            }
+        </script>
+        <div class="row">
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-6 ">
+                <button class="btn btn-primary" type="submit">Add Item</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

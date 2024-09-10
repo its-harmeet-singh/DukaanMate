@@ -1,0 +1,158 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Purchase Desktop
+{% endblock %}
+
+{% block main %}
+    <div class="purchaseDesktop-main-body px-auto">
+        <div class="purchaseDesktop-body mx-auto py-2" style="margin-left: 4%;">
+            <div class="row">
+                    <div class="col-md-5 purchaseDesktopGraph">
+                        <div>
+                            <h3>Today's Item Sale Percentage</h3>
+                    </div>
+                    <div id="productPieChart"></div>
+                </div>
+                <div class="col-md-5 purchaseDesktopGraph mx-auto">
+                    <div class = "px-auto">
+                        <div>
+                            <h3>Last Seven Days Item Sale</h3>
+                        </div>
+                        <div id="productLineChart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 2%;">
+            <div class="purchaseDesktopTable">
+                <h3 style="margin-top: 2%; margin-bottom: 2%;"> Today's Transaction </h3>
+                <div style="padding-left: 3%; padding-right: 3%;">
+                    <table class="table table-bordered billGen-table " id = "billGen-table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Transaction Towards</th>
+                                <th>Amount</th>
+                                <th>Transaction Time</th>
+                                <th>Reason</th>
+                                <th>Withdrawal / Deposit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for transaction in transactions %}
+                            <tr>
+                                <td>{{transaction.username}}</td>
+                                <td>{{transaction.transaction_towards}}</td>
+                                <td>{{transaction.amount}}</td>
+                                <td>{{transaction.transaction_time}}</td>
+                                <td> {{transaction.reason}} </td>
+                                <td>{{transaction.withdrawal_or_deposit | capitalize}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="border-0 fw-bold text-end" colspan="4">Total Amount</td>
+                                <td class="border-0 text-end"> {{total_amount}}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            productWisePieChart();
+            pastSevenDaysBarGraph();
+        });
+
+        function productWisePieChart()
+        {
+            let productWiseData = '{{ productWiseData|safe}}';
+            productWiseData = Array.from(JSON.parse(productWiseData));
+
+            let productWiseDataLabels = '{{ productWiseDataLabels|safe}}';
+            productWiseDataLabels = Array.from(JSON.parse(productWiseDataLabels));
+
+            var options = {
+                series: productWiseData,
+                chart : {
+                    height : 350,
+                    type : "pie",
+                },
+                labels: productWiseDataLabels,
+                dataLabels: {
+                    formatter: function(val, opts){
+                        return opts.w.config.series[opts.seriesIndex]
+                    }
+                }
+            };
+            var chart = new ApexCharts(
+                document.querySelector("#productPieChart"),
+                options
+            );
+            chart.render();
+        }
+
+        function pastSevenDaysBarGraph()
+        {
+            let data = '{{ pastSevenproductWiseData|safe}}';
+            data = Array.from(JSON.parse(data));
+
+            let dates = '{{dates|safe}}';
+            dates = Array.from(JSON.parse(dates));
+
+            var options = {
+            series: data,
+            chart: {
+                height: 350,
+                type: 'line',
+                dropShadow: {
+                    enabled: true,
+                    color: '#000',
+                    top: 18,
+                    left: 7,
+                    blur: 10,
+                    opacity: 0.2
+            },
+            toolbar: {
+                show: false
+            }
+            },
+            dataLabels: {
+                enabled: true,
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            markers: {
+                size: 1
+            },
+            xaxis: {
+                categories: dates,
+                title: {
+                    text: 'Date'
+                }
+            },
+            yaxis: {
+                title: {
+                    text: 'Item Sell'
+                },
+                min: 0
+            },
+            legend: {
+                position: 'top',
+                horizontalAlign: 'right',
+                floating: true,
+                offsetY: -25,
+                offsetX: -5
+            }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#productLineChart"), options);
+            chart.render();
+        }
+    </script>
+{% endblock %}

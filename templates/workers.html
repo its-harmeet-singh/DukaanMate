@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Add Item
+{% endblock %}
+
+{% block main %}
+<form action="/addworker" method="post">
+    <div class="container workers_body">
+        <div class = "row pb-0">
+            <div class="row billGen-h2"><h2>Add Worker</h2></div>
+        </div>
+        <div class="row">
+            <div class="col-md-5  item">
+                <label class="form-check-label">Full Name</label>
+                <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Full Name"
+                    required />
+            </div>
+            <div class="col-md-5  item">
+                <label class="form-check-label">Phone</label>
+                <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone" required />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 item">
+                <label class="form-check-label">Address</label>
+                <input type="text" class="form-control" id="address" name="address" placeholder="Address" required />
+            </div>
+            <div class="col-md-5 item">
+                <label class="form-check-label">Salary</label>
+                <input type="text" class="form-control" id="salary" name="salary" placeholder="Salary per month" required />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-6 ">
+                <button class="btn btn-primary" type="submit">Add Worker</button>
+            </div>
+        </div>
+
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Bill Generator
+{% endblock %}
+
+{% block main %}
+    <div class="billGen-body-div">
+        <div class="container">
+            <form class="billGen-form" action="/billGen" method = "post">
+                <div class = "row pb-0">
+                    <div class="row billGen-h2"><h2>Generate Bill</h2></div>
+                </div>
+                <div class = "row">
+                    <div class="col-md-6 form-group">
+                        <label class="text-left" for="cashier-name">Cashier</label><br>
+                        <input class="form-control" autocomplete="off" id = "cashier-name" name = "cashier-name" readonly placeholder="Cashier Name" value = '{{session["user_name"] | capitalize }}' type="text">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label class="text-left" for="today-date">Today's Date</label><br>
+                        <input class="form-control" autocomplete="off" id = "today-date" readonly name = "today-date" placeholder="Todays Date" type="text" value= '{{session["today_date"]}}' >
+                    </div>
+                </div>
+                <div class = "row">
+                    <div class="col-md-6 form-group">
+                        <label for="customer-name">Customer Name</label><br>
+                        <input class="form-control" autocomplete="off" id = "customer-name" name = "customer-name" placeholder="Customer Name" type="text" value='{{session["cart"]["customer_name"]}}'>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="customer-phoneNo">Customer Phone No</label><br>
+                        <input class="form-control" autocomplete="off" id = "customer-phoneNo" name = "customer-phoneNo" placeholder="Customer Phone" type="text" value='{{session["cart"]["phone_number"]}}' pattern="[789][0-9]{9}">
+                    </div>
+                </div>
+                <div class = "row">
+                    <div class="col-md-6 form-group">
+                        <label for="item">Item</label><br>
+                        <select class="form-control" name="item" id="item" onchange="setFields();">
+                            <option disabled="" selected="">Select item</option>
+                            {% for item in items %}
+                            <option value = {{item.item_id}}>{{item.itemname}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="item-weight">Item Weight</label><br>
+                        <input class="form-control" autocomplete="off" id = "item-weight" name = "item-weight" placeholder="Item Weight" type="number" min="0" onfocusout = "setTotalPrice();">
+                    </div>
+                </div>
+                <div class = "row">
+                    <div class="col-md-6 form-group">
+                        <label for="sale-type">Sale Type</label><br>
+                        <select class="form-control" name="sale-type"  id = "sale-type" onchange="setFields();">
+                            <option value = "retail" selected>Retail</option>
+                            <option value = "wholesale">WholeSale</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="discount">Discount</label><br>
+                        <input class="form-control" autocomplete="off" id = "discount" name = "discount" placeholder="Discount" type="text" readonly>
+                    </div>
+                </div>
+                <div class = "row">
+                    <div class="col-md-6 form-group">
+                        <label for="price-perKg">Price Per KG</label><br>
+                        <input class="form-control" autocomplete="off" id = "price-perKg" name = "price-perKg" placeholder="Price Per Kg" type="text">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="total-price">Total Price</label><br>
+                        <input class="form-control" autocomplete="off" id = "total-price" name = "total-price" placeholder="Total Price" type="text" readonly>
+                    </div>
+                </div>
+                <div class = "row">
+                    <div class="col-md-4 form-group">
+                        <button class="btn btn-primary form-control" name="billGen-button" value="Add Item" type="submit">Add Item</button>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <button class="btn btn-primary form-control" name="billGen-button" value="Clear" type="reset">Clear</button>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <button class="btn btn-primary form-control" name="billGen-button" value="Print" type="button" onclick="printInvoice();">Print Bill</button>
+                    </div>
+                </div>
+                <script>
+                    
+                    
+                </script>
+                <table class="table table-bordered billGen-table" id = "billGen-table">
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Price per KG</th>
+                            <th>Quantity</th>
+                            <th>Discount</th>
+                            <th>Total Price</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in session["cart"]["cart_item"] %}
+                        <tr>
+                            <td>{{item.name}}</td>
+                            <td>{{item.pricePerKG}}</td>
+                            <td>{{item.quantity}}</td>
+                            <td>{{item.discount}} %</td>
+                            <td>{{item.totalPrice}}</td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-6">
+                                        <button type="button" name="billGen-button" value="Delete" class="btn btn-danger" onclick="window.location.href = '/deleteItem?item={{item.item_id}}';">Delete</button>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="border-0 fw-bold text-end" colspan="4">Total Amount</td>
+                            <td class="border-0 text-end"> {{session["cart"]["totalAmount"]}}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </form>
+        </div>
+    </div>
+{% endblock %}
